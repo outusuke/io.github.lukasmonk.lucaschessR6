@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Lucas Chess
+Comment=Chess GUI for training, playing against engines, and analysis
+Exec=lucaschess
+Icon=io.github.lukasmonk.lucaschessR6
+Terminal=false
+Categories=Game;BoardGame;
+Keywords=chess;stockfish;training;engine;tactics;

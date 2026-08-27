@@ -1,0 +1,66 @@
+id: io.github.lukasmonk.lucaschessR6
+runtime: org.kde.Platform
+runtime-version: '6.11'
+sdk: org.kde.Sdk
+base: io.qt.PySide.BaseApp
+base-version: '6.11'
+command: lucaschess
+
+finish-args:
+  - --share=ipc
+  - --socket=fallback-x11
+  - --socket=wayland
+  - --socket=pulseaudio
+  - --share=network
+
+cleanup:
+  - '*.a'
+  - '*.la'
+  - /include
+  - /lib/pkgconfig
+  - /share/doc
+  - /share/man
+
+build-options:
+  env:
+    PYTHONPATH: /app/lib/python3.13/site-packages
+
+# Required by io.qt.PySide.BaseApp to strip Qt/QtWebEngine dev cruft.
+cleanup-commands:
+  - /app/cleanup-BaseApp.sh
+
+modules:
+  - python3-requirements.json
+
+  - name: lucaschess
+    buildsystem: simple
+    build-commands:
+      - install -d /app/share/lucaschess
+      - cp -a lucaschessR6/bin /app/share/lucaschess/bin
+      - cp -a lucaschessR6/Resources /app/share/lucaschess/Resources
+      - chmod -R +x /app/share/lucaschess/bin/OS/linux/Engines/
+
+      - sh build-fastercode.sh /app/share/lucaschess
+
+      - install -Dm755 lucaschess-wrapper.sh /app/bin/lucaschess
+      - install -Dm644 io.github.lukasmonk.lucaschessR6.desktop /app/share/applications/io.github.lukasmonk.lucaschessR6.desktop
+      - install -Dm644 io.github.lukasmonk.lucaschessR6.metainfo.xml /app/share/metainfo/io.github.lukasmonk.lucaschessR6.metainfo.xml
+      - install -Dm644 io.github.lukasmonk.lucaschessR6.png /app/share/icons/hicolor/64x64/apps/io.github.lukasmonk.lucaschessR6.png
+    sources:
+      - type: git
+        url: https://github.com/lukasmonk/lucaschessR6.git
+        commit: 3d45e137edde7c1f493bfda0b6ac5cb58225ade8
+        dest: lucaschessR6
+        x-checker-data:
+          type: git
+          branch: main
+      - type: file
+        path: lucaschess-wrapper.sh
+      - type: file
+        path: build-fastercode.sh
+      - type: file
+        path: io.github.lukasmonk.lucaschessR6.desktop
+      - type: file
+        path: io.github.lukasmonk.lucaschessR6.metainfo.xml
+      - type: file
+        path: io.github.lukasmonk.lucaschessR6.png

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.lukasmonk.lucaschessR6</id>
+  <name>Lucas Chess</name>
+  <summary>Chess GUI for training, playing engines, and analysis</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+  <developer id="io.github.lukasmonk">
+    <name>Lucas Monge</name>
+  </developer>
+  <description>
+    <p>
+      Lucas Chess is a training-focused chess GUI: play against any UCI
+      engine, work through tactics puzzles and endgame training, get
+      tutoring feedback on your moves, analyse games, build tournaments
+      and leagues between engines, and more. This build bundles a large
+      collection of open-source UCI engines for offline play.
+    </p>
+  </description>
+  <launchable type="desktop-id">io.github.lukasmonk.lucaschessR6.desktop</launchable>
+  <url type="homepage">https://lucaschess.pythonanywhere.com/</url>
+  <url type="bugtracker">https://github.com/lukasmonk/lucaschessR6/issues</url>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="R6.0.4" date="2026-07-22">
+      <description>
+        <p>See upstream release notes.</p>
+      </description>
+    </release>
+  </releases>
+</component>
