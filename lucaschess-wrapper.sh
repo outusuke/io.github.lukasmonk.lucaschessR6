@@ -10,16 +10,15 @@ for item in Code LucasR.py pyproject.toml; do
   [ -e "$DATADIR/bin/$item" ] || ln -s "$APPDIR/bin/$item" "$DATADIR/bin/$item"
 done
 
-# bin/OS is a real copy, kept writable in case an engine writes state next
-# to its own binary. Resynced (via mtime stamp) whenever the app's
-# FasterCode build changes, not just on first launch, so updates don't
-# leave a stale bin/OS/ behind.
+# symlink bin/OS files instead of copying (engines/nets/books are 700MB+)
+# dirs are real so engines can still write new files next to themselves
+# re-sync when FasterCode.so changes, not just first run
 FASTERCODE_SO="$(ls "$APPDIR"/bin/OS/linux/FasterCode.*.so 2>/dev/null | head -1)"
 APP_STAMP="$([ -n "$FASTERCODE_SO" ] && stat -c %Y "$FASTERCODE_SO" 2>/dev/null)"
 OS_STAMP_FILE="$DATADIR/bin/.os-stamp"
 if [ ! -e "$DATADIR/bin/OS" ] || [ "$(cat "$OS_STAMP_FILE" 2>/dev/null)" != "$APP_STAMP" ]; then
   rm -rf "$DATADIR/bin/OS"
-  cp -r "$APPDIR/bin/OS" "$DATADIR/bin/OS"
+  cp -a -s "$APPDIR/bin/OS" "$DATADIR/bin/OS"
   printf '%s' "$APP_STAMP" > "$OS_STAMP_FILE"
 fi
 
