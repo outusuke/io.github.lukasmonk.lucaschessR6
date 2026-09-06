@@ -35,8 +35,8 @@ log "Building FasterCode for $PYVER (expecting $EXPECTED_SO)"
 
 cd "$IRINA_SRC_DIR"
 
-C_SOURCES="lc.c board.c data.c eval.c hash.c loop.c makemove.c movegen.c \
-movegen_piece_to.c search.c util.c pgn.c parser.c polyglot.c"
+C_SOURCES="lc.c board.c data.c hash.c makemove.c movegen.c \
+movegen_piece_to.c util.c pgn.c parser.c polyglot.c cpu_flags.c"
 for f in $C_SOURCES; do
   [ -f "$f" ] || die "Expected C source file '$f' in $IRINA_SRC_DIR but it's \
 missing -- upstream's irina source list may have changed; update C_SOURCES \
