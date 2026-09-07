@@ -12,9 +12,18 @@ done
 
 # symlink bin/OS files instead of copying (engines/nets/books are 700MB+)
 # dirs are real so engines can still write new files next to themselves
-# re-sync when FasterCode.so changes, not just first run
-FASTERCODE_SO="$(ls "$APPDIR"/bin/OS/linux/FasterCode.*.so 2>/dev/null | head -1)"
-APP_STAMP="$([ -n "$FASTERCODE_SO" ] && stat -c %Y "$FASTERCODE_SO" 2>/dev/null)"
+# re-sync when the installed build changes, not just first run.
+APP_STAMP=""
+if [ -r /.flatpak-info ]; then
+  APP_STAMP="$(sed -n 's/^app-commit=//p' /.flatpak-info)"
+fi
+if [ -z "$APP_STAMP" ]; then
+  # Fallback for running outside a Flatpak sandbox (e.g. manual testing):
+  # not reliable under OSTree, but harmless and better than nothing.
+  FASTERCODE_SO="$(ls "$APPDIR"/bin/OS/linux/FasterCode.*.so 2>/dev/null | head -1)"
+  APP_STAMP="$([ -n "$FASTERCODE_SO" ] && stat -c %Y "$FASTERCODE_SO" 2>/dev/null)"
+fi
+
 OS_STAMP_FILE="$DATADIR/bin/.os-stamp"
 if [ ! -e "$DATADIR/bin/OS" ] || [ "$(cat "$OS_STAMP_FILE" 2>/dev/null)" != "$APP_STAMP" ]; then
   rm -rf "$DATADIR/bin/OS"
