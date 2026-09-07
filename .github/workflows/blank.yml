@@ -43,7 +43,14 @@ jobs:
           generate_release_notes: true
           body: |
             Flatpak bundle for Lucas Chess R6
+
+            **First install:**
             ```bash
             flatpak install --user lucaschessR6.flatpak
             flatpak run io.github.lukasmonk.lucaschessR6
+            ```
+
+            **Already installed? Update to this version:**
+            ```bash
+            flatpak install --user --reinstall lucaschessR6.flatpak
             ```
