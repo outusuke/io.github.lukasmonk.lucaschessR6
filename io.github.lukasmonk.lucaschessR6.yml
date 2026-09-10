@@ -49,7 +49,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/lukasmonk/lucaschessR6.git
-        commit: fd11c1216ef8f32725a937c6b9339e0ec34ede35
+        commit: a9cbbfcff05b0dd21da13dff556237af2171d720
         dest: lucaschessR6
         x-checker-data:
           type: git
