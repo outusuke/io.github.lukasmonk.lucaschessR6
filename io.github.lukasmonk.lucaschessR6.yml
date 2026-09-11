@@ -12,6 +12,7 @@ finish-args:
   - --socket=wayland
   - --socket=pulseaudio
   - --share=network
+  - --talk-name=org.freedesktop.Flatpak # for external engines
 
 cleanup:
   - '*.a'
@@ -36,6 +37,7 @@ modules:
     buildsystem: simple
     build-commands:
       - install -d /app/share/lucaschess
+      - sed -i 's/os\.environ\["QT_QPA_PLATFORM"\] = "xcb"/pass/' lucaschessR6/bin/Code/Main/LucasChessGui.py  # patched: do not force xcb on wayland/'
       - cp -a lucaschessR6/bin /app/share/lucaschess/bin
       - cp -a lucaschessR6/Resources /app/share/lucaschess/Resources
       - chmod -R +x /app/share/lucaschess/bin/OS/linux/Engines/
