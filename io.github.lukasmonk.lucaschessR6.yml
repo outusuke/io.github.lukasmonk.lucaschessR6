@@ -12,7 +12,6 @@ finish-args:
   - --socket=wayland
   - --socket=pulseaudio
   - --share=network
-  - --talk-name=org.freedesktop.Flatpak # for external engines
 
 cleanup:
   - '*.a'
