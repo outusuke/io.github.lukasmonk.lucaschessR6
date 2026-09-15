@@ -75,7 +75,7 @@ modules:
       # for these release assets. Check https://lucaschess.pythonanywhere.com/downloads
       # by hand for new versions and bump the url/sha256 together.
       - type: archive
-        url: https://github.com/lukasmonk/lucaschessR6/releases/download/R6.1.3/LucasChessR6_1_4_LINUX_PORTABLE.7z
+        url: https://github.com/lukasmonk/lucaschessR6/releases/download/R6.1.4/LucasChessR6_1_4_LINUX_PORTABLE.7z
         sha256: c4299bd42cc2aa541798a763524da6fef669c00056db62edc690e421adca6041
       - type: file
         path: lucaschess-wrapper.sh
