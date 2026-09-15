@@ -10,6 +10,13 @@ finish-args:
   - --socket=wayland
   - --socket=pulseaudio
   - --share=network
+  # Read-only access to cursor/icon themes and GTK's settings.ini --
+  # only needed if QT_QPA_PLATFORM=xcb has to stay forced (see the
+  # cursor-theme comment block in lucaschess-wrapper.sh). Harmless to
+  # leave granted either way.
+  - --filesystem=xdg-config/gtk-3.0:ro
+  - --filesystem=xdg-data/icons:ro
+  - --filesystem=~/.icons:ro
 
 cleanup:
   - '*.a'
@@ -43,9 +50,19 @@ modules:
         install -d /app/share/lucaschess
         cp -a "$SRC_DIR/bin" /app/share/lucaschess/bin
         cp -a "$SRC_DIR/Resources" /app/share/lucaschess/Resources
-      - sed -i 's/os\.environ\["QT_QPA_PLATFORM"\] = "xcb"/pass/' lucaschessR6/bin/Code/Main/LucasChessGui.py  # patched: do not force xcb on wayland/'
       - chmod -R +x /app/share/lucaschess/bin/OS/linux/Engines/
       - chmod +x /app/share/lucaschess/bin/LucasR /app/share/lucaschess/bin/setup_linux
+      # The frozen build bundles its own (older) libfontconfig.so.1 next
+      # to the executable, which PyInstaller's rpath ($ORIGIN) makes it
+      # prefer over the runtime's copy. That old copy can't parse the
+      # newer fontconfig schema Flatpak auto-generates for host font
+      # access (reset-dirs/remap-dir/salt/as-path -- fontconfig 2.14+),
+      # producing parse warnings/errors at startup. Delete it so the
+      # dynamic linker falls back to org.kde.Platform's fontconfig,
+      # which understands its own generated config. Fontconfig's public
+      # ABI is stable across versions, so this is a safe swap (unlike
+      # the Qt private-symbol issue the BaseApp build had).
+      - rm -f /app/share/lucaschess/bin/_internal/libfontconfig.so.1
       - install -Dm755 lucaschess-wrapper.sh /app/bin/lucaschess
       - install -Dm644 io.github.lukasmonk.lucaschessR6.desktop /app/share/applications/io.github.lukasmonk.lucaschessR6.desktop
       - install -Dm644 io.github.lukasmonk.lucaschessR6.metainfo.xml /app/share/metainfo/io.github.lukasmonk.lucaschessR6.metainfo.xml
