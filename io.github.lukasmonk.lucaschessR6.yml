@@ -43,6 +43,7 @@ modules:
         install -d /app/share/lucaschess
         cp -a "$SRC_DIR/bin" /app/share/lucaschess/bin
         cp -a "$SRC_DIR/Resources" /app/share/lucaschess/Resources
+      - sed -i 's/os\.environ\["QT_QPA_PLATFORM"\] = "xcb"/pass/' lucaschessR6/bin/Code/Main/LucasChessGui.py  # patched: do not force xcb on wayland/'
       - chmod -R +x /app/share/lucaschess/bin/OS/linux/Engines/
       - chmod +x /app/share/lucaschess/bin/LucasR /app/share/lucaschess/bin/setup_linux
       - install -Dm755 lucaschess-wrapper.sh /app/bin/lucaschess
