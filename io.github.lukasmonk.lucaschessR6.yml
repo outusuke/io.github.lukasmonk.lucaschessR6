@@ -23,10 +23,26 @@ modules:
   - name: lucaschess
     buildsystem: simple
     build-commands:
-      # LucasChessR/ is the top-level dir inside the upstream .7z release.
-      - install -d /app/share/lucaschess
-      - cp -a LucasChessR/bin /app/share/lucaschess/bin
-      - cp -a LucasChessR/Resources /app/share/lucaschess/Resources
+      # Diagnostic: if the cp below ever fails again, this shows exactly
+      # what the build-host's 7z actually put on disk, in the build log.
+      - echo "--- post-extract build dir ---"; find . -maxdepth 2 | sort; echo "-------------------------------"
+      # Locate the extracted top-level dir instead of hardcoding
+      # "LucasChessR" -- older p7zip builds on some CI runners have been
+      # seen to mangle/drop the leading path entry of modern solid
+      # LZMA2+BCJ .7z archives even while reporting success.
+      - |
+        set -eu
+        # Find wherever the archive actually put "bin/", up to 2 levels
+        # deep, and use its parent as the source root -- works whether
+        # it's "LucasChessR/bin" as expected or something p7zip mangled.
+        SRC_DIR="$(find . -mindepth 2 -maxdepth 2 -type d -name bin -printf '%h\n' | head -1)"
+        if [ -z "$SRC_DIR" ]; then
+          SRC_DIR="."
+        fi
+        echo "Using extracted source dir: $SRC_DIR"
+        install -d /app/share/lucaschess
+        cp -a "$SRC_DIR/bin" /app/share/lucaschess/bin
+        cp -a "$SRC_DIR/Resources" /app/share/lucaschess/Resources
       - chmod -R +x /app/share/lucaschess/bin/OS/linux/Engines/
       - chmod +x /app/share/lucaschess/bin/LucasR /app/share/lucaschess/bin/setup_linux
       - install -Dm755 lucaschess-wrapper.sh /app/bin/lucaschess
