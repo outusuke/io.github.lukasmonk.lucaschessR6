@@ -20,6 +20,7 @@ cleanup:
   - /lib/pkgconfig
   - /share/doc
   - /share/man
+  - /share/lucaschess/bin/OS/win32
 
 build-options:
   env:
