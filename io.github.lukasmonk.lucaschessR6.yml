@@ -20,8 +20,7 @@ cleanup:
   - /lib/pkgconfig
   - /share/doc
   - /share/man
-  - /share/lucaschess/bin/OS/win32
-
+  
 build-options:
   env:
     PYTHONPATH: /app/lib/python3.13/site-packages
@@ -38,6 +37,7 @@ modules:
     build-commands:
       - install -d /app/share/lucaschess
       - sed -i 's/os\.environ\["QT_QPA_PLATFORM"\] = "xcb"/pass/' lucaschessR6/bin/Code/Main/LucasChessGui.py  # patched: do not force xcb on wayland/'
+      - rm -rf lucaschessR6/bin/OS/win32
       - cp -a lucaschessR6/bin /app/share/lucaschess/bin
       - cp -a lucaschessR6/Resources /app/share/lucaschess/Resources
       - chmod -R +x /app/share/lucaschess/bin/OS/linux/Engines/
