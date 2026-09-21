@@ -20,12 +20,20 @@ cleanup:
   - /lib/pkgconfig
   - /share/doc
   - /share/man
-  
+  - /lib/python3.13/site-packages/Cython
+  - /lib/python3.13/site-packages/Cython-*
+  - /bin/cython
+  - /bin/cythonize
+  - /bin/cygdb
+  - /lib/libLLVM*
+  - /lib/libclang*
+
 build-options:
   env:
     PYTHONPATH: /app/lib/python3.13/site-packages
+    BASEAPP_REMOVE_WEBENGINE: '1'
+    BASEAPP_DISABLE_NUMPY: '1'
 
-# Required by io.qt.PySide.BaseApp to strip Qt/QtWebEngine dev cruft.
 cleanup-commands:
   - /app/cleanup-BaseApp.sh
 
@@ -36,7 +44,7 @@ modules:
     buildsystem: simple
     build-commands:
       - install -d /app/share/lucaschess
-      - sed -i 's/os\.environ\["QT_QPA_PLATFORM"\] = "xcb"/pass/' lucaschessR6/bin/Code/Main/LucasChessGui.py  # patched: do not force xcb on wayland/'
+      - sed -i 's/os\.environ\["QT_QPA_PLATFORM"\] = "xcb"/pass/' lucaschessR6/bin/Code/Main/LucasChessGui.py
       - rm -rf lucaschessR6/bin/OS/win32
       - cp -a lucaschessR6/bin /app/share/lucaschess/bin
       - cp -a lucaschessR6/Resources /app/share/lucaschess/Resources
