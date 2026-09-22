@@ -10,20 +10,20 @@ jobs:
     name: "Build Flatpak"
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/flathub-infra/flatpak-github-actions:kde-6.10
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-50
       options: --privileged
     steps:
       - uses: actions/checkout@v4
       - name: Build Flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
-          bundle: lucaschessR6.flatpak
-          manifest-path: io.github.lukasmonk.lucaschessR6.yml
+          bundle: MaiaChess.flatpak
+          manifest-path: org.csslab.MaiaChess.yml
       - name: Upload temporary artifact
         uses: actions/upload-artifact@v4
         with:
           name: flatpak-bundle
-          path: lucaschessR6.flatpak
+          path: MaiaChess.flatpak
   release:
     name: "Publish Release"
     needs: build
@@ -39,18 +39,18 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: lucaschessR6.flatpak
+          files: maiachess.flatpak
           generate_release_notes: true
           body: |
-            Flatpak bundle for Lucas Chess R6
+            Flatpak bundle for MaiaChess
 
             **First install:**
             ```bash
-            flatpak install --user lucaschessR6.flatpak
-            flatpak run io.github.lukasmonk.lucaschessR6
+            flatpak install --user MaiaChess.flatpak
+            flatpak run org.csslab.MaiaChess
             ```
 
             **Already installed? Update to this version:**
             ```bash
-            flatpak install --user --reinstall lucaschessR6.flatpak
+            flatpak install --user --reinstall org.csslab.MaiaChess.flatpak
             ```
