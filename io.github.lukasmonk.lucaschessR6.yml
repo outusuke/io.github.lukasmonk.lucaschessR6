@@ -36,6 +36,7 @@ modules:
         cp -a "$SRC_DIR/bin" /app/share/lucaschess/bin
         cp -a "$SRC_DIR/Resources" /app/share/lucaschess/Resources
       - chmod -R +x /app/share/lucaschess/bin/OS/linux/Engines/
+      - chmod +x /app/share/lucaschess/bin/OS/linux/FasterCode.*.so
       - chmod +x /app/share/lucaschess/bin/LucasR /app/share/lucaschess/bin/setup_linux
       - rm -f /app/share/lucaschess/bin/_internal/libfontconfig.so.1
       - install -Dm755 lucaschess-wrapper.sh /app/bin/lucaschess

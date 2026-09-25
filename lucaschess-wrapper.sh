@@ -22,4 +22,7 @@ fi
 
 
 cd "$DATADIR/bin"
+
+export PYTHONPATH="$DATADIR/bin/OS/linux${PYTHONPATH:+:$PYTHONPATH}"
+
 exec ./LucasR "$@"
