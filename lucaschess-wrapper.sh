@@ -23,11 +23,6 @@ fi
 
 cd "$DATADIR/bin"
 
-# FasterCode.*.so ships under OS/linux, but the frozen PyInstaller build
-# (LucasR) only auto-discovers extension modules inside _internal/, so
-# "import FasterCode" in Code/Base/Game.py fails with ModuleNotFoundError
-# even though the file is right there. Point PYTHONPATH at it so normal
-# filesystem-based import finds it as a fallback.
 export PYTHONPATH="$DATADIR/bin/OS/linux${PYTHONPATH:+:$PYTHONPATH}"
 
 exec ./LucasR "$@"
