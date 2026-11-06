@@ -45,8 +45,8 @@ modules:
       - install -Dm644 io.github.lukasmonk.lucaschessR6.png /app/share/icons/hicolor/64x64/apps/io.github.lukasmonk.lucaschessR6.png
     sources:
       - type: archive
-        url: https://github.com/lukasmonk/lucaschessR6/releases/download/R6.2.2/LucasChessR6_2_2_LINUX_PORTABLE.7z
-        sha256: 9560a36aaf5ce476761c75a021dc9d28c572c730a92b22a0f76f5452fa65fb97
+        url: https://github.com/lukasmonk/lucaschessR6/releases/download/R6.2.3/LucasChessR6_2_3_LINUX_PORTABLE.7z
+        sha256: eba8ff7f0be8dd4185640ef0d6caec20444f635d281cda191fd49b94bbc006f9
       - type: file
         path: lucaschess-wrapper.sh
       - type: file
